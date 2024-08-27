@@ -1,33 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { Card } from "./PokemonCard";
-import { Button } from "./PokemonCard";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { PokemonContext } from "../pages/Dex";
+import { Button, Card, DashboardContainer, DashDetail } from "./Style";
 
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: rgb(240, 240, 240);
-  border: 1px solid rgb(221, 221, 221);
-  margin-bottom: 20px;
-  border-radius: 10px;
-
-  h2 {
-    font-size: 50px;
-    margin-bottom: 15px;
-    margin-top: 0px;
-  }
-`;
-
-const DashDetail = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-const Dashboard = ({ selectedPokemon, onRemovePokemon }) => {
+const Dashboard = () => {
+  const { selectedPokemon, removePokemon } = useContext(PokemonContext);
   const navigate = useNavigate();
   return (
     <DashboardContainer>
@@ -49,7 +26,7 @@ const Dashboard = ({ selectedPokemon, onRemovePokemon }) => {
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemovePokemon(pokemon.id);
+                  removePokemon(pokemon.id);
                 }}
               >
                 삭제

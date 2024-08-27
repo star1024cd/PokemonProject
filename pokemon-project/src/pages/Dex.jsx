@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard";
 import PokemonList from "../components/PokemonList";
 import MOCK_DATA from "../mok";
-import styled from "styled-components";
 import Swal from "sweetalert2";
+import { MainContainer } from "../components/Style";
 
-const MainContainer = styled.div`
-  font-size: 62.5%;
-  box-sizing: border-box;
-`;
+export const PokemonContext = createContext();
 
 function Dex() {
   const [selectedPokemon, setSelectedPokemon] = useState([]);
-  console.log(selectedPokemon);
   const addPokemon = (pokemon) => {
     setSelectedPokemon((prevSelectedPokemon) => {
       const existPokemon = prevSelectedPokemon.some(
@@ -59,13 +55,19 @@ function Dex() {
     });
   };
   return (
-    <MainContainer>
-      <Dashboard
-        selectedPokemon={selectedPokemon}
-        onRemovePokemon={removePokemon}
-      />
-      <PokemonList pokemonList={MOCK_DATA} onAddPokemon={addPokemon} />
-    </MainContainer>
+    <PokemonContext.Provider
+      value={{
+        selectedPokemon,
+        addPokemon,
+        removePokemon,
+        pokemonList: MOCK_DATA,
+      }}
+    >
+      <MainContainer>
+        <Dashboard />
+        <PokemonList />
+      </MainContainer>
+    </PokemonContext.Provider>
   );
 }
 
